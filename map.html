@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Styled Maps - Night Mode</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+        #map_canvas {
+            height: 500px;
+            width: 500;
+        }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA56R0C2n_rs_oJajhK1s_iGffr3zPjjo8&libraries=places" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="map_canvas"></div>
+    <script>
+        var directionsDisplay = new google.maps.DirectionsRenderer();
+        var directionsService = new google.maps.DirectionsService();
+
+        var map;
+
+        var location1 = new google.maps.LatLng(16.075281, 108.222469);
+        var location2 = new google.maps.LatLng(16.075472, 108.223400);
+                var location3 = new google.maps.LatLng(16.076545, 108.223335);
+
+        var location4 = new google.maps.LatLng(16.075076, 108.223574);
+
+        var mapOptions = {
+            zoom: 14,
+            center: location1
+        };
+
+        function initialize() {
+            map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+            directionsService = new google.maps.DirectionsService();
+            directionsDisplay = new google.maps.DirectionsRenderer({
+                suppressMarkers: true,
+                suppressInfoWindows: true
+            });
+            directionsDisplay.setMap(map);
+
+            var request = {
+                origin: location1,
+                destination: location2,
+                travelMode: google.maps.DirectionsTravelMode.DRIVING
+            };
+            directionsService.route(request, function(response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setOptions({
+                        polylineOptions: {
+                            strokeColor: 'red'
+                        }
+                    });
+                    directionsDisplay.setDirections(response);
+                }
+            });
+
+
+            //directionsService = new google.maps.DirectionsService();
+            directionsDisplay2 = new google.maps.DirectionsRenderer({
+                suppressMarkers: true,
+                suppressInfoWindows: true
+            });
+            directionsDisplay2.setMap(map);
+
+            var request2 = {
+                origin: location3,
+                destination: location4,
+                travelMode: google.maps.DirectionsTravelMode.DRIVING
+            };
+            directionsService.route(request2, function(response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay2.setOptions({
+                        polylineOptions: {
+                            strokeColor: 'orange'
+                        }
+                    });
+                    directionsDisplay2.setDirections(response);
+                }
+            });
+        }
+         google.maps.event.addDomListener(window, 'load', initialize);
+        // map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        // directionsDisplay.setMap(map);
+
+        // function calculation() {
+        //     var request = {
+        //         origin: local_1,
+        //         destination: local_2,
+        //         travelMode: 'DRIVING'
+        //     };
+
+        //     directionsService.route(request, function(result, status) {
+        //         if (status == "OK") {
+        //             directionsDisplay.setDirections(result);
+        //         }
+        //     });
+        // }
+        // document.getElementById('get').onclick = function() {
+        //     calculation();
+        // };
+    </script>
+</body>
+
+</html>
