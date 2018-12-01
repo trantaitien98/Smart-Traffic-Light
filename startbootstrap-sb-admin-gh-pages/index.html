@@ -24,11 +24,37 @@
     <link href="css/sb-admin.css" rel="stylesheet">
     <style>
         #map_canvas {
-              height: 100%;
+              height: 90%;
               width: 90%;
               margin-left: 5%;
               margin-top: 1%;
           }
+        .lamp {
+            background-color: #D3D3D3;
+            border-radius: 100%;
+            width: 30px; 
+            height: 30px;
+            padding: 2px;
+            margin: 0px;
+        }
+        .metter {
+            text-align: center;
+            color: #FFFFCC;
+        }
+        .lamp.red{
+            background-color: #EE0000;
+        }
+
+        .lamp.yellow {
+            background-color: #DDDD00;
+        }
+
+        .lamp.green {
+            background-color: #00EE00;
+        }
+        td {
+          padding:10px;
+        }
       </style>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA56R0C2n_rs_oJajhK1s_iGffr3zPjjo8&libraries=places" type="text/javascript"></script>
 
@@ -158,18 +184,23 @@
 
         var map;
 
-        var location1 = new google.maps.LatLng(16.075281, 108.222469);
-        var location2 = new google.maps.LatLng(16.075492, 108.223539);
+        var location1 = new google.maps.LatLng(16.075491, 108.223514);
+        var location2 = new google.maps.LatLng(16.075311, 108.222684);
         var location3 = new google.maps.LatLng(16.076545, 108.223335);
         var location4 = new google.maps.LatLng(16.075076, 108.223574);
-        var location5 = new google.maps.LatLng(16.075673, 108.224259);
+        var location5 = new google.maps.LatLng(16.075512, 108.223552);
+        var location6 = new google.maps.LatLng(16.075673, 108.224259);
 
+        var trafficLight_1 = new google.maps.LatLng(16.075470, 108.223511);
+        var trafficLight_2 = new google.maps.LatLng(16.075538, 108.223570);
         var mapOptions = {
-            zoom: 14,
-            center: location1
+            zoom: 30,
+            center: trafficLight_1
         };
+        
 
         function initialize() {
+
            map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
             directionsService = new google.maps.DirectionsService();
             directionsDisplay = new google.maps.DirectionsRenderer({
@@ -177,7 +208,18 @@
                 suppressInfoWindows: true
             });
             directionsDisplay.setMap(map);
+        
+        var trafficLight1 = new google.maps.Marker({
+          position: trafficLight_1,
+          label: '1',
+          map: map
+        });
 
+        var trafficLight2 = new google.maps.Marker({
+          position: trafficLight_2,
+          label: '2',
+          map: map
+        });
             var request = {
                 origin: location1,
                 destination: location2,
@@ -198,7 +240,7 @@
             //directionsService = new google.maps.DirectionsService();
             directionsDisplay2 = new google.maps.DirectionsRenderer({
                 suppressMarkers: true,
-                suppressInfoWindows: true
+                suppressInfoWindows: false
             });
             directionsDisplay2.setMap(map);
 
@@ -226,7 +268,7 @@
 
             directionsDisplay3.setMap(map);
             var request3 = {
-                origin: location2,
+                origin: location6,
                 destination: location5,
                 travelMode: google.maps.DirectionsTravelMode.DRIVING
             };
@@ -240,9 +282,37 @@
                     directionsDisplay3.setDirections(response);
                 }
             });
-            setInterval(changeColor,10000);
+
+            setInterval(changeColorOrange,10000);
+
+
         }
-        function changeColor() {
+        function changeColorOrange() {
+          directionsDisplay4 = new google.maps.DirectionsRenderer({
+                suppressMarkers: true,
+                suppressInfoWindows: true
+            });
+            directionsDisplay4.setMap(map);
+            var request4 = {
+                origin: location1,
+                destination: location2,
+                travelMode: google.maps.DirectionsTravelMode.DRIVING
+            };
+            directionsService.route(request4, function(response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay4.setOptions({
+                        polylineOptions: {
+                            strokeColor: 'orange'
+                        }
+                    });
+                    directionsDisplay4.setDirections(response);
+                }
+            });
+
+          setInterval(changeColorBlue,10000);
+
+        }
+                function changeColorBlue() {
           directionsDisplay4 = new google.maps.DirectionsRenderer({
                 suppressMarkers: true,
                 suppressInfoWindows: true
@@ -260,14 +330,78 @@
                             strokeColor: 'blue'
                         }
                     });
-                    directionsDisplay4.setDirections(response);
                 }
             });
+
+          setInterval(changeColorBlue,10000);
+
         }
          google.maps.event.addDomListener(window, 'load', initialize);
             </script>
+                    <script>
 
+                        function changeColors(){
+   if (index >= list.length) index = 0; 
+   if (index2 >= list2.length) index2 = 0; 
+   
+   let item = list[index];
+   let item2 = list2[index2];
+   
+   if (!item.countdown) item.countdown = item.weight - 1;
+   else item.countdown = item.countdown - 1;
+   
+   if (!item2.countdown) item2.countdown = item2.weight - 1;
+   else item2.countdown = item2.countdown - 1;
+   
+   var traffic_light = document.getElementById('traffic');
+   var traffic_metter = document.getElementById('metter');
+   traffic_light.className = list[index].color;
+   traffic_metter.innerHTML = item.countdown;
 
+   var traffic_light2 = document.getElementById('traffic2');
+   var traffic_metter2 = document.getElementById('metter2');
+   traffic_light2.className = list2[index2].color;
+   traffic_metter2.innerHTML = item2.countdown;
+   
+   if (item.countdown == 0) index = index + 1;
+   if (item2.countdown == 0) index2 = index2 + 1;
+}
+
+var list = [
+  {color:"lamp green", weight:17}, 
+  {color:"lamp yellow", weight:3},
+  {color:"lamp red", weight:10}
+  
+];
+
+var list2 = [
+  {color:"lamp red", weight:20}, 
+  {color:"lamp green", weight:7},
+  {color:"lamp yellow", weight:3}
+   
+
+];
+
+var index = 0;
+var index2 = 0;
+var timer = setInterval(changeColors, 1000);
+</script>
+                    <table>
+                        <tr>
+                            <td> Traffic Light 1 </td>
+                            <td>
+                                <div id="traffic" class="lamp" />
+                                <div id="metter" class="metter" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Traffic Light 2 </td>
+                            <td>
+                                <div id="traffic2" class="lamp" />
+                                <div id="metter2" class="metter" />
+                            </td>
+                        </tr>
+                    </table>
 
 
                     <!-- Sticky Footer -->
