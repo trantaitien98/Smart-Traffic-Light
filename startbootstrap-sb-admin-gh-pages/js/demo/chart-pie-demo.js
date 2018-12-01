@@ -7,10 +7,10 @@ var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {
   type: 'pie',
   data: {
-    labels: ["Blue", "Red", "Yellow", "Green"],
+    labels: ["Hải Châu", "Thanh Khê", "Sơn Trà", "Ngũ Hành Sơn", "Liên Chiểu", "Cẩm Lệ"],
     datasets: [{
-      data: [12.21, 15.58, 11.25, 8.32],
-      backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
+      data: [33, 22, 12, 7, 11, 15],
+      backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745', '#696969', '#FF66CC'],
     }],
   },
 });
