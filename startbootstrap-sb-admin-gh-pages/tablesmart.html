@@ -22,6 +22,28 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.css" rel="stylesheet">
+    <style type="text/css">
+.lamp {
+    background-color: #D3D3D3;
+    border-radius: 100%;
+    width: 25px; 
+    height: 25px;
+    padding: 1px;
+    margin: 0px;
+}
+.metter {
+    text-align: center;
+    color: #FFFFCC;
+}
+.lamp.red{
+    background-color: #EE0000;
+}
+
+.lamp.green {
+    background-color: #00EE00;
+}
+</style>
+    
 
   </head>
 
@@ -29,7 +51,7 @@
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-      <a class="navbar-brand mr-1" href="index.html">Home</a>
+      <a class="navbar-brand mr-1" href="object.html">Home</a>
 
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -93,7 +115,7 @@
       <!-- Sidebar -->
       <ul class="sidebar navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="index.html">
+          <a class="nav-link" href="object.html">
             <i class="fas fa-map-marked-alt"></i>
             <span>Smart Traffic Light</span>
           </a>
@@ -140,6 +162,94 @@
             </li>
           </ol>
 
+
+<script>
+
+function changeColors(){
+   if (object >= list.length) object = 0; 
+   if (object2 >= list2.length) object2 = 0; 
+   if (object3 >= list3.length) object3 = 0; 
+   if (object4 >= list4.length) object4 = 0; 
+   
+   let item = list[object];
+   let item2 = list2[object2];
+   let item3 = list3[object3];
+   let item4 = list4[object4];
+   
+   if (!item.countdown) item.countdown = item.weight + 5;
+   else item.countdown = item.countdown + 5;
+   
+   if (!item2.countdown) item2.countdown = item2.weight - 5;
+   else item2.countdown = item2.countdown - 10;
+   
+   if (!item3.countdown) item3.countdown = item3.weight + 5;
+   else item3.countdown = item3.countdown + 5;
+   
+   if (!item4.countdown) item4.countdown = item4.weight + 5;
+   else item4.countdown = item4.countdown - 5;
+   
+   var traffic_light = document.getElementById('traffic');
+   var traffic_metter = document.getElementById('metter');
+   traffic_light.className = list[object].color;
+   traffic_metter.innerHTML = item.countdown;
+
+   var traffic_light2 = document.getElementById('traffic2');
+   var traffic_metter2 = document.getElementById('metter2');
+   traffic_light2.className = list2[object2].color;
+   traffic_metter2.innerHTML = item2.countdown;
+   
+   var traffic_light3 = document.getElementById('traffic3');
+   var traffic_metter3 = document.getElementById('metter3');
+   traffic_light3.className = list3[object3].color;
+   traffic_metter3.innerHTML = item3.countdown;
+   
+   var traffic_light4 = document.getElementById('traffic4');
+   var traffic_metter4 = document.getElementById('metter4');
+   traffic_light4.className = list4[object4].color;
+   traffic_metter4.innerHTML = item4.countdown;
+   
+   if (item.countdown + 5 > 80){ object = object + 1; item.countdown = 0;}
+   if (item2.countdown - 5 < 30){ object2 = object2 + 1; item2.countdown = 0;}
+   if (item3.countdown + 5 > 60){ object3 = object3 + 1; item3.countdown = 0;}
+   if (item4.countdown - 5 < 30){ object4 = object4 + 1; item4.countdown = 60;}
+}
+
+var list = [
+  {color:"lamp red", weight:25},   
+  {color:"lamp red", weight:40},
+  {color:"lamp red", weight:35}, 
+  {color:"lamp red", weight:30}
+];
+
+var list2 = [
+  {color:"lamp red", weight:60}, 
+  {color:"lamp red", weight:50}, 
+  {color:"lamp red", weight:55}, 
+  {color:"lamp red", weight:80}
+];
+
+var list3 = [
+  {color:"lamp green", weight:20}, 
+  {color:"lamp green", weight:30}, 
+  {color:"lamp green", weight:25}, 
+  {color:"lamp green", weight:35}
+];
+
+var list4 = [
+  {color:"lamp green", weight:60}, 
+  {color:"lamp green", weight:40}, 
+  {color:"lamp green", weight:45}, 
+  {color:"lamp green", weight:55}
+];
+
+var object = 0;
+var object2 = 0;
+var object3 = 0;
+var object4 = 0;
+
+var timer = setInterval(changeColors, 10000);
+</script>
+
           <!-- DataTables Example -->
           <div class="card mb-3">
             <div class="card-header">
@@ -153,7 +263,7 @@
                       <th>ID</th>
                       <th>Name station</th>
                       <th>Red light time</th>
-                      <th>Yellow light time</th>
+                      <th>Green light time</th>
                       <th>Address</th>
                       <th>Note</th>
                     </tr>
@@ -163,16 +273,16 @@
                     <tr>
                       <td>1</td>
                       <td>Nguyễn Du - Đống Đa</td>
-                      <td>30s</td>
-                      <td>20s</td>
+                      <td><div id="traffic" class="lamp"/><div id="metter" class="metter"/>35</td>
+                      <td><div id="traffic3" class="lamp"/><div id="metter3" class="metter"/>30</td>
                       <td>16.078241, 108.217110</td>
                       <td>...</td>
                     </tr>
                     <tr>
                       <td>2</td>
                       <td>Lý Tự Trọng - Đống Đa</td>
-                      <td>30s</td>
-                      <td>20s</td>
+                      <td><div id="traffic2" class="lamp"/><div id="metter2" class="metter"/>30</td>
+                      <td><div id="traffic4" class="lamp"/><div id="metter4" class="metter"/>40</td>
                       <td>16.076823, 108.216115</td>
                       <td>...</td>
                     </tr>
@@ -395,7 +505,7 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabobject="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
