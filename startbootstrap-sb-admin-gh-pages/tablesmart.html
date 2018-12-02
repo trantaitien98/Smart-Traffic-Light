@@ -170,11 +170,15 @@ function changeColors(){
    if (object2 >= list2.length) object2 = 0; 
    if (object3 >= list3.length) object3 = 0; 
    if (object4 >= list4.length) object4 = 0; 
+   if (object5 >= list5.length) object5 = 0; 
+   if (object6 >= list6.length) object6 = 0; 
    
    let item = list[object];
    let item2 = list2[object2];
    let item3 = list3[object3];
    let item4 = list4[object4];
+   let item5 = list5[object5];
+   let item6 = list6[object6];
    
    if (!item.countdown) item.countdown = item.weight + 5;
    else item.countdown = item.countdown + 5;
@@ -187,6 +191,12 @@ function changeColors(){
    
    if (!item4.countdown) item4.countdown = item4.weight + 5;
    else item4.countdown = item4.countdown - 5;
+
+   if (!item5.countdown) item5.countdown = item5.weight - 5;
+   else item5.countdown = item5.countdown + 10;
+   
+   if (!item6.countdown) item6.countdown = item6.weight + 10;
+   else item6.countdown = item6.countdown - 5;
    
    var traffic_light = document.getElementById('traffic');
    var traffic_metter = document.getElementById('metter');
@@ -207,11 +217,23 @@ function changeColors(){
    var traffic_metter4 = document.getElementById('metter4');
    traffic_light4.className = list4[object4].color;
    traffic_metter4.innerHTML = item4.countdown;
+
+   var traffic_light5 = document.getElementById('traffic5');
+   var traffic_metter5 = document.getElementById('metter5');
+   traffic_light5.className = list5[object5].color;
+   traffic_metter5.innerHTML = item5.countdown;
+   
+   var traffic_light6 = document.getElementById('traffic6');
+   var traffic_metter6 = document.getElementById('metter6');
+   traffic_light6.className = list6[object6].color;
+   traffic_metter6.innerHTML = item6.countdown;
    
    if (item.countdown + 5 > 80){ object = object + 1; item.countdown = 0;}
    if (item2.countdown - 5 < 30){ object2 = object2 + 1; item2.countdown = 0;}
    if (item3.countdown + 5 > 60){ object3 = object3 + 1; item3.countdown = 0;}
    if (item4.countdown - 5 < 30){ object4 = object4 + 1; item4.countdown = 60;}
+   if (item5.countdown + 5 > 50){ object5 = object5 + 1; item5.countdown = 0;}
+   if (item6.countdown - 5 < 30){ object6 = object6 + 1; item6.countdown = 70;}
 }
 
 var list = [
@@ -242,12 +264,28 @@ var list4 = [
   {color:"lamp green", weight:55}
 ];
 
+var list5 = [
+  {color:"lamp red", weight:35}, 
+  {color:"lamp red", weight:20}, 
+  {color:"lamp red", weight:45}, 
+  {color:"lamp red", weight:25}
+];
+
+var list6 = [
+  {color:"lamp green", weight:50}, 
+  {color:"lamp green", weight:20}, 
+  {color:"lamp green", weight:25}, 
+  {color:"lamp green", weight:35}
+];
+
 var object = 0;
 var object2 = 0;
 var object3 = 0;
 var object4 = 0;
+var object5 = 0;
+var object6 = 0;
 
-var timer = setInterval(changeColors, 10000);
+var timer = setInterval(changeColors, 1000);
 </script>
 
           <!-- DataTables Example -->
@@ -289,8 +327,8 @@ var timer = setInterval(changeColors, 10000);
                     <tr>
                       <td>3</td>
                       <td>Đống Đa - Lý Tự Trọng</td>
-                      <td>20s</td>
-                      <td>30s</td>                      
+                      <td><div id="traffic5" class="lamp"/><div id="metter5" class="metter"/>20</td>
+                      <td><div id="traffic6" class="lamp"/><div id="metter6" class="metter"/>30</td>                      
                       <td>16.076823, 108.216115</td>
                       <td>...</td>
                     </tr>
